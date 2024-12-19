@@ -28,7 +28,7 @@ jobs:
         path: "."
         level: UNDEFINED
         confidence: UNDEFINED
-        exit_zero: true
+        exit_zero: false
     
   dependancies-nakijken:
     runs-on: ubuntu-latest
