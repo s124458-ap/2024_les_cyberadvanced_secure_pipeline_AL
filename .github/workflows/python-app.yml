@@ -1,6 +1,6 @@
 name: workflow_secure_pipeline_AL
+
 on:
-  # Trigger workflow met pull request
   push:
     branches:
       - main
@@ -8,34 +8,41 @@ on:
     branches:
       - main
   schedule:
-      - cron: '0 2 * * Mon'  # maandag om 2 uur
+    - cron: '0 2 * * Mon'  # Maandag om 2 uur
 
-  
 jobs:
   code-scannen:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.13'
-    - run: pip install bandit
-    - name: gebruik bandit
-      uses: mdegis/bandit-action@v1.0
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        path: "."
-        level: UNDEFINED
-        confidence: UNDEFINED
-        exit_zero: false
-    
+      - uses: actions/checkout@v4 
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.13'
+      - run: |
+          pip install --upgrade pip
+          pip install bandit 
+      - name: Gebruik Bandit
+        uses: mdegis/bandit-action@v1.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: "."
+          level: "LOW"
+          confidence: "HIGH"
+          exit_zero: false
+
   dependancies-nakijken:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.13'
-    - run: echo 1
+      - uses: actions/checkout@v4  
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'  # Gebruik een stabiele versie van Python
+      - run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt  # Installeer afhankelijkheden uit requirements.txt
+      - name: Controleer afhankelijkheden op kwetsbaarheden
+        run: |
+          pip install safety  # Installeer Safety om afhankelijkheden te scannen
+          safety check  # Voer de kwetsbaarheidscontrole uit
