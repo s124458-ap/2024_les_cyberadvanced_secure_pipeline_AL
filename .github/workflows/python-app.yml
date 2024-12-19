@@ -35,14 +35,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4  
-      - name: Set up Python 3.10
+      - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'  # Gebruik een stabiele versie van Python
+          python-version: '3.13'
       - run: |
           pip install --upgrade pip
-          pip install -r requirements.txt  # Installeer afhankelijkheden uit requirements.txt
-      - name: Controleer afhankelijkheden op kwetsbaarheden
+          pip install -r requirements.txt
+      - name: Controleer dependancies op kwetsbaarheden
         run: |
-          pip install safety  # Installeer Safety om afhankelijkheden te scannen
-          safety check  # Voer de kwetsbaarheidscontrole uit
+          pip install safety
+          safety check
