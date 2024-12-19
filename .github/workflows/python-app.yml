@@ -1,4 +1,4 @@
-name: Dependency Management and Vulnerability Scanning and secret scanning
+name: workflow_secure_pipeline_AL
 on:
   # Trigger workflow met pull request
   push:
@@ -7,18 +7,19 @@ on:
   pull_request:
     branches:
       - main
-  
+  schedule:
+      - cron: '0 2 * * Mon'  # maandag om 2 uur
 
-  - name: test-workflow
+  
+jobs:
+  build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: '3.13'
-    - run: python echo(1)
-    - run: python exit(0)
-
-schedule:
-    - cron: "0 0 2 * * Mon"  # maandag om 2 uur
+    - run: echo(1)
+    - run: exit(0)
