@@ -30,6 +30,8 @@ jobs:
           level: "LOW"
           confidence: "HIGH"
           exit_zero: false
+      - name: Bandit Check
+        run: bandit -r -lll -ii .
 
   dependancies-nakijken:
     runs-on: ubuntu-latest
